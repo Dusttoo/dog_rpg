@@ -1,76 +1,135 @@
+# Flask React Project
 
-# Create React App Template
+This is the starter for the Flask React project.
 
-A no-frills template from which to create React applications with
-[Create React App](https://github.com/facebook/create-react-app).
+## Getting started
 
-```sh
-npx create-react-app my-app --template @appacademy/simple --use-npm
-```
+1. Clone this repository (only this branch)
 
-## Available Scripts
+   ```bash
+   git clone https://github.com/appacademy-starters/python-project-starter.git
+   ```
 
-In the project directory, you can run:
+2. Install dependencies
 
-### `npm start`
+      ```bash
+      pipenv install --dev -r dev-requirements.txt && pipenv install -r requirements.txt
+      ```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+3. Create a **.env** file based on the example with proper settings for your
+   development environment
+4. Setup your PostgreSQL user, password and database and make sure it matches your **.env** file
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+5. Get into your pipenv, migrate your database, seed your database, and run your flask app
 
-### `npm test`
+   ```bash
+   pipenv shell
+   ```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+   ```bash
+   flask db upgrade
+   ```
 
-### `npm run build`
+   ```bash
+   flask seed all
+   ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+   ```bash
+   flask run
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+6. To run the React App in development, checkout the [README](./react-app/README.md) inside the `react-app` directory.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+***
+*IMPORTANT!*
+   If you add any python dependencies to your pipfiles, you'll need to regenerate your requirements.txt before deployment.
+   You can do this by running:
 
-### `npm run eject`
+   ```bash
+   pipenv lock -r > requirements.txt
+   ```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+*ALSO IMPORTANT!*
+   psycopg2-binary MUST remain a dev dependency because you can't install it on apline-linux.
+   There is a layer in the Dockerfile that will install psycopg2 (not binary) for us.
+***
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Deploy to Heroku
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+1. Before you deploy, don't forget to run the following command in order to
+ensure that your production environment has all of your up-to-date
+dependencies. You only have to run this command when you have installed new
+Python packages since your last deployment, but if you aren't sure, it won't
+hurt to run it again.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+   ```bash
+   pipenv lock -r > requirements.txt
+   ```
 
-## Learn More
+2. Create a new project on Heroku
+3. Under Resources click "Find more add-ons" and add the add on called "Heroku Postgres"
+4. Install the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-command-line)
+5. Run
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+   ```bash
+   heroku login
+   ```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+6. Login to the heroku container registry
 
-### Code Splitting
+   ```bash
+   heroku container:login
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+7. Update the `REACT_APP_BASE_URL` variable in the Dockerfile.
+   This should be the full URL of your Heroku app: i.e. "https://flask-react-aa.herokuapp.com"
+8. Push your docker container to heroku from the root directory of your project.
+   (If you are using an M1 mac, follow [these steps below](#for-m1-mac-users) instead, then continue on to step 9.)
+   This will build the Dockerfile and push the image to your heroku container registry.
 
-### Analyzing the Bundle Size
+   ```bash
+   heroku container:push web -a {NAME_OF_HEROKU_APP}
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+9. Release your docker container to heroku
 
-### Making a Progressive Web App
+      ```bash
+      heroku container:release web -a {NAME_OF_HEROKU_APP}
+      ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+10. set up your database
 
-### Advanced Configuration
+      ```bash
+      heroku run -a {NAME_OF_HEROKU_APP} flask db upgrade
+      heroku run -a {NAME_OF_HEROKU_APP} flask seed all
+      ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+11. Under Settings find "Config Vars" and add any additional/secret .env
+variables.
 
-### Deployment
+12. profit
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### For M1 Mac users
 
-### `npm run build` fails to minify
+(Replaces **Step 8**)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. Build image with linux platform for heroku servers. Replace
+{NAME_OF_HEROKU_APP} with your own tag:
+
+   ```bash=
+   docker buildx build --platform linux/amd64 -t {NAME_OF_HEROKU_APP} .
+   ```
+
+2. Tag your app with the url for your apps registry. Make sure to use the name
+of your Heroku app in the url and tag name:
+
+   ```bash=2
+   docker tag {NAME_OF_HEROKU_APP} registry.heroku.com/{NAME_OF_HEROKU_APP}/web
+   ```
+
+3. Use docker to push the image to the Heroku container registry:
+
+   ```bash=3
+   docker push registry.heroku.com/{NAME_OF_HEROKU_APP}/web
+   ```
+# dog_rpg
