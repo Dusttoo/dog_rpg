@@ -14,6 +14,7 @@ class User(db.Model, UserMixin):
 
     files = db.relationship('File', back_populates='users')
     kennels = db.relationship('Kennel', back_populates='users')
+    dogs = db.relationship('Dog', back_populates='users')
 
 
     @property
