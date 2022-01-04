@@ -11,12 +11,16 @@ file_routes = Blueprint('file', __name__)
   #Don't forget to register your Blueprint
 
 @file_routes.route('/', methods=["POST"])
-@login_required
+# @login_required
 def upload_file():
-    if "file" not in request.files:
+    print('\n\n\n', request.form['file'], '\n\n\n')
+
+    if "file" not in request.form:
+
         return "No user_file key in request.files"
 
-    file = request.files["file"]
+    file = request.form['file']
+    print('\n\n\n', file, '\n\n\n')
 
     if file:
         file_url = upload_file_to_s3(file, Config.S3_BUCKET)
@@ -32,4 +36,5 @@ def upload_file():
         db.session.commit()
         return file.to_dict()
     else: return "No File Attached!"
+
 

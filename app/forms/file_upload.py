@@ -4,6 +4,6 @@ from wtforms.validators import DataRequired
 from app.models import File
 
 
-class LoginForm(FlaskForm):
+class FileUpload(FlaskForm):
     user_id = IntegerField('user_id', validators=[DataRequired()])
-    url = StringField('url', validators=[DataRequired()])
+    file = StringField('file', validators=[DataRequired()])

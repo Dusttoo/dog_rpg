@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { Redirect } from 'react-router-dom';
+import { uploadFile } from '../../store/file_upload';
 import { signUp } from '../../store/session';
 import { ImageUpload } from '../FileUpload';
 
@@ -10,16 +11,25 @@ const SignUpForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
+  const [images, setImages] = React.useState([]);
   const user = useSelector(state => state.session.user);
   const dispatch = useDispatch();
 
+
   const onSignUp = async (e) => {
     e.preventDefault();
+    const fileForm = {
+      'user_id': 1,
+      'file': images[0].data_url
+    }
+    console.log(fileForm)
     if (password === repeatPassword) {
-      const data = await dispatch(signUp(username, email, password));
-      if (data) {
-        setErrors(data)
-      }
+
+      // const data = await dispatch(signUp(username, email, password));
+      const image = await dispatch(uploadFile(fileForm))
+      // if (data) {
+      //   setErrors(data)
+      // }
     }
   };
 
@@ -38,6 +48,8 @@ const SignUpForm = () => {
   const updateRepeatPassword = (e) => {
     setRepeatPassword(e.target.value);
   };
+
+
 
   if (user) {
     return <Redirect to='/' />;
@@ -68,7 +80,7 @@ const SignUpForm = () => {
           value={email}
         ></input>
       </div>
-      <ImageUpload />
+      <ImageUpload images={images} setImages={setImages}/>
       <div>
         <label>Password</label>
         <input

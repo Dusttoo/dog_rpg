@@ -3,17 +3,15 @@ import ImageUploading from "react-images-uploading";
 import { useDispatch } from "react-redux";
 import { uploadFile } from "../store/file_upload";
 
-export function ImageUpload() {
-  const [images, setImages] = React.useState([]);
+export function ImageUpload({images, setImages}) {
   const maxNumber = 69;
   const dispatch = useDispatch()
 
   const onChange = async (imageList, addUpdateIndex) => {
     // data for submit
     setImages(imageList);
-    const file = await dispatch(uploadFile(imageList));
-
   };
+
 
   return (
     <div className="App">
