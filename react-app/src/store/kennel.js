@@ -19,8 +19,8 @@ export const getUserKennel = (userId) => async (dispatch) => {
         if(data.errors) {
             return
         }
-
-        dispatch(getKennel(data))
+        console.log(data)
+    dispatch(getKennel(data))
     }
 }
 
