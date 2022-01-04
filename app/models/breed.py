@@ -9,6 +9,7 @@ class Breed(db.Model):
     population = db.Column(db.Integer, nullable=False, default=0)
 
     group = db.relationship('Group', back_populates='breeds')
+    dogs = db.relationship('Dog', back_populates='dogs')
 
     def to_dict(self):
         return {
