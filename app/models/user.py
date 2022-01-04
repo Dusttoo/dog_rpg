@@ -13,6 +13,7 @@ class User(db.Model, UserMixin):
     kennel_name = db.Column(db.String(50), nullable=False, default='My Kennel')
 
     files = db.relationship('File', back_populates='users')
+    kennels = db.relationship('Kennel', back_populates='users')
 
 
     @property
