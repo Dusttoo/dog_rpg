@@ -5,7 +5,7 @@ const getKennel = (kennel) => ({
     kennel
 })
 
-const initialState = {};
+const initialState = {kennel: null};
 
 export const getUserKennel = (userId) => async (dispatch) => {
     const response = await fetch(`/api/kennel/${userId}`, {
@@ -19,7 +19,6 @@ export const getUserKennel = (userId) => async (dispatch) => {
         if(data.errors) {
             return
         }
-        console.log(data)
     dispatch(getKennel(data))
     }
 }
