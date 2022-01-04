@@ -13,7 +13,7 @@ export const uploadFile = (fileForm) => async (dispatch) => {
   // repeat as necessary  for each required form field
   form.append("file", file);
 
-  const res = await fetch("/api/file", {
+  const res = await fetch("/api/file/", {
     method: "POST",
     body: form,
   });
