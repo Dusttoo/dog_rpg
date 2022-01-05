@@ -8,6 +8,7 @@ const getdog = (dog) => ({
 const initialState = {};
 
 export const getdogs = (owner_id) => async (dispatch) => {
+  console.log('dispatch', owner_id)
   const response = await fetch(`/api/dogs/${owner_id}`, {
     headers: {
       "Content-Type": "application/json",
@@ -16,6 +17,7 @@ export const getdogs = (owner_id) => async (dispatch) => {
 
   if (response.ok) {
     const data = await response.json();
+    console.log('data', data)
     if (data.errors) {
       return;
     }

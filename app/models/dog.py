@@ -14,6 +14,10 @@ class Dog(db.Model):
     age = db.Column(db.Integer, nullable=False,
                     default=0)
     image= db.Column(db.String, nullable=False, default='https://i.etsystatic.com/7867651/r/il/6346e1/2131533539/il_fullxfull.2131533539_jslp.jpg')
+    happiness = db.Column(db.Integer, nullable=False, default=100)
+    health = db.Column(db.Integer, nullable=False, default=100)
+    energy = db.Column(db.Integer, nullable=False, default=100)
+
 
     users = db.relationship('User', back_populates='dogs')
     breeds = db.relationship('Breed', back_populates='dogs')
@@ -25,6 +29,7 @@ class Dog(db.Model):
 
     def to_dict(self):
         return {
+            'id': self.id,
             'owner': self.owner,
             'name': self.name,
             'callname': self.callname,
@@ -33,5 +38,8 @@ class Dog(db.Model):
             'gender': self.gender,
             'birthday': self.birthday,
             'age': self.age,
+            'happiness': self.happiness,
+            'health': self.health,
+            'energy': self.energy,
             'image': self.image
         }

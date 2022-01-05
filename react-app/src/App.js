@@ -13,22 +13,20 @@ import { getBreedGroups } from './store/group';
 import { getBreeds } from './store/breed'
 import { getUserKennel } from './store/kennel';
 import { getdogs } from './store/dog';
+import DogProfile from './components/dogs/DogProfile';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
   const user = useSelector(state => state.session.user)
-  console.log(user.id)
-
+  
   useEffect(() => {
     (async() => {
       await dispatch(authenticate());
       await dispatch(getBreedGroups())
       await dispatch(getBreeds())
-      if(user) {
-        await dispatch(getUserKennel(user.id));
-        await dispatch(getdogs(user.id));
-      }
+      console.log('in useeffect', user)
+      
       
       setLoaded(true);
     })();
@@ -42,20 +40,23 @@ function App() {
     <BrowserRouter>
       <NavBar />
       <Switch>
-        <Route path='/login' exact={true}>
+        <Route path="/login" exact={true}>
           <LoginForm />
         </Route>
-        <Route path='/sign-up' exact={true}>
+        <Route path="/sign-up" exact={true}>
           <SignUpForm />
         </Route>
-        <ProtectedRoute path='/users' exact={true} >
-          <UsersList/>
+        <ProtectedRoute path="/users" exact={true}>
+          <UsersList />
         </ProtectedRoute>
-        <ProtectedRoute path='/users/:userId' exact={true} >
+        <ProtectedRoute path="/users/:userId" exact={true}>
           <User />
         </ProtectedRoute>
-        <ProtectedRoute path='/:id' exact={true} >
+        <ProtectedRoute path="/:id" exact={true}>
           <KennelPage />
+        </ProtectedRoute>
+        <ProtectedRoute path="/dog/:id" exact={true}>
+          <DogProfile />
         </ProtectedRoute>
       </Switch>
     </BrowserRouter>
