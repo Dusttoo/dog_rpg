@@ -13,9 +13,8 @@ const KennelPage = () => {
     const {id} = useParams()
 
    useEffect(() => {
-       dispatch(getUserKennel(id))
-       dispatch(getUserKennel(user?.id));
-       dispatch(getdogs(user?.id));
+       dispatch(getUserKennel(user.id))
+       dispatch(getdogs(user.id));
    }, [])
     
 

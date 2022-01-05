@@ -25,9 +25,6 @@ function App() {
       await dispatch(authenticate());
       await dispatch(getBreedGroups())
       await dispatch(getBreeds())
-      console.log('in useeffect', user)
-      
-      
       setLoaded(true);
     })();
   }, [dispatch]);

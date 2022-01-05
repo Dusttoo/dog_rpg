@@ -2,8 +2,22 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import LogoutButton from './auth/LogoutButton';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { getUserKennel } from '../store/kennel';
+
 
 const NavBar = () => {
+const user = useSelector((state) => state.session.user);
+const kennel = useSelector((state) => state?.kennel.kennel);
+const dispatch = useDispatch();
+console.log(kennel)
+  
+   useEffect(() => {
+     dispatch(getUserKennel(user.id));
+   }, []);
+
   return (
     <nav>
       <ul>
@@ -28,7 +42,7 @@ const NavBar = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/:id" exact={true} activeClassName="active">
+          <NavLink to={`/${kennel.id}`} exact={true} activeClassName="active">
             Kennel
           </NavLink>
         </li>
