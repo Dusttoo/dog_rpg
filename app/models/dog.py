@@ -3,19 +3,6 @@ from datetime import datetime, timedelta
 
 class Dog(db.Model):
     __tablename__ = 'dogs'
-
-#     from datetime import datetime, timedelta
-
-
-# birthday = datetime.now()
-# print('birthday: ', birthday)
-
-# test = datetime.now() - birthday
-# print('test: ', test)
-
-# days = round(test.total_seconds() / 86400)
-# print(days)
-
     id = db.Column(db.Integer, primary_key=True)
     owner = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     name = db.Column(db.String(80), nullable=False)

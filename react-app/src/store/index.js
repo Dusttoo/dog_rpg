@@ -1,6 +1,7 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import breedReducer from './breed';
+import dogReducer from './dog';
 import groupReducer from './group';
 import kennelReducer from './kennel';
 import session from './session'
@@ -9,7 +10,8 @@ const rootReducer = combineReducers({
   session,
   kennel: kennelReducer,
   groups: groupReducer,
-  breeds: breedReducer
+  breeds: breedReducer,
+  dogs: dogReducer
 });
 
 
