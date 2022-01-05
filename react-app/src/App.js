@@ -10,6 +10,7 @@ import User from './components/User';
 import { authenticate } from './store/session';
 import KennelPage from './components/kennel/KennelPage';
 import { getBreedGroups } from './store/group';
+import { getBreeds } from './store/breed'
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -19,6 +20,7 @@ function App() {
     (async() => {
       await dispatch(authenticate());
       await dispatch(getBreedGroups())
+      await dispatch(getBreeds())
       setLoaded(true);
     })();
   }, [dispatch]);

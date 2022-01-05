@@ -21,6 +21,12 @@ class Breed(db.Model):
         return {
             'id': self.id,
             'name': self.name,
-            'group': self.group,
+            'group': self.breed_group,
+            'personality': self.personality,
+            'avg_height': self.avg_height,
+            'avg_weight': self.avg_weight,
+            'avg_life_exp': self.avg_life_exp,
+            'breed_video': self.breed_video,
+            'description': self.description,
             'population': self.population
         }

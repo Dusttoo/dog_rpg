@@ -11,6 +11,7 @@ from .api.auth_routes import auth_routes
 from .api.file_upload import file_routes
 from .api.kennel_routes import kennel_routes
 from .api.group_routes import group_routes
+from .api.breed_routes import breed_routes
 
 from .seeds import seed_commands
 
@@ -37,6 +38,7 @@ app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(file_routes, url_prefix='/api/file')
 app.register_blueprint(kennel_routes, url_prefix='/api/kennel')
 app.register_blueprint(group_routes, url_prefix='/api/groups')
+app.register_blueprint(breed_routes, url_prefix='/api/breeds')
 
 
 
