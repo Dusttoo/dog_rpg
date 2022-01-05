@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
+import { getBreedGroups } from "../../store/group";
 import { getUserKennel } from "../../store/kennel";
 
 
@@ -13,6 +14,7 @@ const KennelPage = () => {
 
    useEffect(() => {
        dispatch(getUserKennel(id))
+       dispatch(getBreedGroups())
    }, [])
     
 
