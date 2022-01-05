@@ -5,6 +5,7 @@ class Group(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
+    description = db.Column(db.Text, nullable=False)
 
     breeds = db.relationship('Breed', back_populates='groups')
 

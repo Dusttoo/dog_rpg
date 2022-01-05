@@ -6,7 +6,7 @@ import { getUserKennel } from "../../store/kennel";
 
 const KennelPage = () => {
     const user = useSelector(state => state.session.user)
-    const kennel = useSelector(state => state.kennel.kennel)
+    const kennel = useSelector(state => state?.kennel.kennel)
     const dispatch = useDispatch()
     const {id} = useParams()
     console.log(kennel)
@@ -19,7 +19,11 @@ const KennelPage = () => {
     return (
       <>
         <h1>{user.kennel_name}</h1>
-        <span>Cleanliness: {kennel.cleanliness} Size: {kennel.size}</span>
+        {kennel && (
+          <span>
+            Cleanliness: {kennel.cleanliness} Size: {kennel.size}
+          </span>
+        )}
       </>
     );
 }

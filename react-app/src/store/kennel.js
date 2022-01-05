@@ -8,6 +8,7 @@ const getKennel = (kennel) => ({
 const initialState = {kennel: null};
 
 export const getUserKennel = (userId) => async (dispatch) => {
+    console.log(dispatch)
     const response = await fetch(`/api/kennel/${userId}`, {
         headers: {
             'Content-Type': 'application/json'
